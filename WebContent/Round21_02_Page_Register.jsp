@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ page import="java.sql.* , javax.naming.*, javax.sql.* "%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
  									"http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -17,7 +18,7 @@
 		}
 		return false;
 	}
-	function chech_form() {
+	function check_form() {
 		if (isNull2(reg_form.name))
 			return false;
 		if (isNull2(reg_form.id))
@@ -29,6 +30,7 @@
 		return true;
 	}
 </script>
+<script src="/IdCheck.jsp"></script>
 </head>
 <body>
 	<center>
@@ -42,7 +44,10 @@
 				</tr>
 				<tr>
 					<th width='100'>아이디</th>
-					<td><input type='text' name='id' size='15' /></td>
+					<td><input type='text' name='id' size='15' />
+					<input  type="button" value="ID중복확인" 
+									   onClick="IdCheck.jsp" />
+					</td>
 				</tr>
 				<tr>
 					<th width='100'>비밀번호</th>

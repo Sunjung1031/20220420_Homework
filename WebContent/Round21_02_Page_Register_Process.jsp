@@ -8,7 +8,9 @@
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");
 	String tel = request.getParameter("tel");
+	String query = "INSERT INTO USER_tb VALUES(null, ?,?,?,?)";
 	
+	PreparedStatement pstmt = null;
 	Connection conn = null;
 	try{
 		Context context =new InitialContext();
@@ -16,8 +18,8 @@
 				(DataSource)context.lookup("java:comp/env/jdbc/myconn");
 		conn = source.getConnection();
 	
-		String query = "INSERT INTO USER_tb VALUES(null, ?,?,?,?)";
-		PreparedStatement pstmt = conn.prepareStatement(query);
+		
+		pstmt = conn.prepareStatement(query);
 		pstmt.setString(1, name);
 		pstmt.setString(2, id);
 		pstmt.setString(3, pw);
