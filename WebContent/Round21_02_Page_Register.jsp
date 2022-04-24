@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ page import="java.sql.* , javax.naming.*, javax.sql.* "%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
  									"http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -8,6 +7,7 @@
 
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 <title>Register Page!</title>
+
 <script language='javascript'>
 	function inNull2(obj) {
 		var data = obj.value;
@@ -18,7 +18,7 @@
 		}
 		return false;
 	}
-	function check_form() {
+	function chech_form() {
 		if (isNull2(reg_form.name))
 			return false;
 		if (isNull2(reg_form.id))
@@ -29,8 +29,14 @@
 			return false;
 		return true;
 	}
+
+	function idCheck() {
+		var id = reg_form.id.value;
+		location = 'IdCheck.jsp?id=' + id;
+	}
+	
+
 </script>
-<script src="/IdCheck.jsp"></script>
 </head>
 <body>
 	<center>
@@ -44,10 +50,8 @@
 				</tr>
 				<tr>
 					<th width='100'>아이디</th>
-					<td><input type='text' name='id' size='15' />
-					<input  type="button" value="ID중복확인" 
-									   onClick="IdCheck.jsp" />
-					</td>
+					<td><input type='text' name='id' size='15' /> <input
+						type="button" value="ID중복확인" onClick="idCheck()" /></td>
 				</tr>
 				<tr>
 					<th width='100'>비밀번호</th>
@@ -59,8 +63,7 @@
 				</tr>
 				<tr>
 					<td colspan='2' align='right'><input type='submit'
-						value='회원가입' />
-						</td>
+						value='회원가입' /></td>
 				</tr>
 			</table>
 		</form>

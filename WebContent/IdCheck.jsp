@@ -1,72 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*,javax.sql.*,javax.naming.*" %>
-<%
-	request.setCharacterEncoding("utf-8");
-	String f_id=(String)request.getParameter("id");
-	int check= -1;
-	
-		Connection conn = null;
-		Statement st = null;
-		ResultSet rs = null;
-		
-		try{
-			Context context = new InitialContext();
-			DataSource source = (DataSource)context.lookup("java:comp/env/jdbc/myconn");
-			conn = source.getConnection();
-			
-			String query = "select id from user_tb where id =  '" +f_id+"'";
-			st = conn.createStatement();
-			st.executeQuery(query);
-			rs=st.executeQuery(query);
-			if(rs.next()){
-				check = 1;
-			}else{
-				check = 0;
-			}
-		}finally{
-			if(rs != null) 
-				try{rs.close();
-				}catch(SQLException e){}
-			if(st != null) 
-				try{st.close();
-				}catch(SQLException e){}
-			if(conn != null) 
-				try{conn.close();
-				}catch(SQLException e){}
-		}
-		if(check == 1){
-			%>
-		<b><%= f_id %>는 이미 사용중입니다.</b>
-		<form name="checkForm" method="post" action="Round21_02_Page_Login.jsp">
-		<b>다시 입력 해 주세요</b><br/><br/>
-		<input type="text" name="id"/>
-		<input type="submit" value="ID중복확인"/>
-		</form>
-		<%
-		}else{
-		%><center>
-		<b>입력하신 <%= f_id %>는 사용하실 수 있는 ID입니다.</b>
-		<input type="button" value="닫기" onclick="setid()">
-		</center>
-		<script language="javascript">
-		<%
-		}
-		%>
-		function setid(){
-			opener.document.Round21_02_Page_Register.id.value="<%= f_id%>";
-			window.self.close();
-		}
-		</script>
-		
+<!-- 추가 -->
+<% request.setCharacterEncoding("UTF-8"); %>
 
+<jsp:useBean id="mem" scope="page" class="id.DBBean"/>
+
+
+<%
+	String id = request.getParameter("id");
+
+	// idCheck 값이 가질 수 있는 값은 1 또는 -1이다.
+	int idCheck = mem.confirmId(id);
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>idCheck.jsp 페이지</title>
+
 </head>
 <body>
-
+	<table border="0" align="center">
+		<tr>
+			<td align="center">
+				<%
+					if(idCheck == 1) {  // ID가 중복인 경우
+				%>
+				<br>
+				<%= id %>는 이미 존재하는 ID 입니다.&nbsp;<br><br>
+				<input type="button" value="닫기" 
+				onClick=" location='Round21_02_Page_Register.jsp'"/>
+				<%
+					} else {
+				%>
+				<br>
+				<%= id %>는 사용 가능한 ID입니다.&nbsp;<br><br>
+				<input type="button" value="닫기" 
+				onClick=" location='Round21_02_Page_Register.jsp'"/>
+				<%
+					}
+				%>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>

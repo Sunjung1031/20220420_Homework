@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="java.sql.* , javax.naming.*, javax.sql.* "%>
+   pageEncoding="UTF-8"%>
+<%@ page
+   import="java.sql.*, javax.naming.Context, javax.naming.InitialContext, javax.sql.DataSource"%>
+
 <%
 request.setCharacterEncoding("utf-8");
 
@@ -10,23 +12,25 @@ String name = "", tel = "";
 
 Connection conn = null;
 PreparedStatement pstmt = null;
-ResultSet rs = null;
-String query = "SELECT * FROM USER_TB WHERE ID = ? AND PW =?";
 
 try {
-	Context context = new InitialContext();
-	DataSource source = (DataSource)context.lookup("java:comp/env/jdbc/myconn");
-	conn = source.getConnection();
+	   Context context = new InitialContext();
+	System.out.println("00d");
+	  DataSource source = (DataSource) context.lookup("java:comp/env/jdbc/myconn");
+
+	System.out.println("99dd");
+	   conn = source.getConnection();
+	System.out.println("88dd");
 
 } catch (Exception ex) {
-	
+	System.out.println("dddd");
 }
 try {
-
+	String query = "select * from user_tb where id=? and pw=?";
 	pstmt = conn.prepareStatement(query);
 	pstmt.setString(1, id);
 	pstmt.setString(2, pw);
-	rs = pstmt.executeQuery();
+	ResultSet rs = pstmt.executeQuery();
 	
 	if (rs.next()) {
 		name = rs.getString("name");

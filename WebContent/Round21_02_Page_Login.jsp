@@ -22,6 +22,7 @@
 			<tr>
 				<th width='100'>아이디</th>
 				<td>
+				
 			<input type ='text' name='id' size='15' value='<%= id %>'/>
 			</td>
 			</tr>
